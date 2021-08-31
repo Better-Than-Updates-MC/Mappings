@@ -1,0 +1,26 @@
+name: Publish
+
+on:
+  # Triggers the workflow on push events but only for the b1.7.3 branch
+  push:
+    branches: [ b1.7.3 ]
+
+  workflow_dispatch:
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Update Gradle Wrapper
+        uses: rahulsom/gradle-up@v0.1.0
+      - name: Setup Java 16
+        uses: actions/setup-java@v2.3.0
+        with:
+          java-version: 16
+          distribution: jdk
+      - name: Build
+        run: gradlew build
+      - name: Publish
+        run: gradlew publish
